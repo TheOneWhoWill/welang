@@ -179,20 +179,21 @@ pub fn tokenize(source_file_name: &str) -> Vec<WeToken<'_>> {
 			"Current position: {}, Current line: {}\n",
 			current_position, current_line
 		);
-		let current_char: char = input_file.chars().nth(current_position).unwrap();
+		let current_char: char = input_file[current_position..].chars().next().unwrap();
 
 		if current_char.is_whitespace() {
 			if current_char == '\n' {
 				current_line += 1;
 			}
-			current_position += 1;
+			current_position += current_char.len_utf8();
 			continue;
 		}
 
+		let two_end = (current_position + 2).min(total_length);
 		if let Some(token) = next_2_match_token(
 			source_file_name,
 			current_line,
-			&input_file[current_position..current_position + 2],
+			&input_file[current_position..two_end],
 		) {
 			current_position += token.string_value.len();
 
@@ -212,10 +213,11 @@ pub fn tokenize(source_file_name: &str) -> Vec<WeToken<'_>> {
 			continue;
 		}
 
+		let one_end = (current_position + 1).min(total_length);
 		if let Some(token) = next_1_match_token(
 			source_file_name,
 			current_line,
-			&input_file[current_position..current_position + 1],
+			&input_file[current_position..one_end],
 		) {
 			current_position += token.string_value.len();
 			tokens.push(token);
