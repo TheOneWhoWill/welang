@@ -175,10 +175,6 @@ pub fn tokenize(source_file_name: &str) -> Vec<WeToken<'_>> {
 	let total_length: usize = input_file.len();
 
 	while current_position < total_length {
-		print!(
-			"Current position: {}, Current line: {}\n",
-			current_position, current_line
-		);
 		let current_char: char = input_file[current_position..].chars().next().unwrap();
 
 		if current_char.is_whitespace() {
