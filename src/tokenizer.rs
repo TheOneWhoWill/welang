@@ -37,7 +37,9 @@ impl Debug for WeTokenType {
 			WeTokenType::COLON => write!(f, "COLON"),
 			WeTokenType::STRING_LITERAL => write!(f, "STRING_LITERAL"),
 			WeTokenType::Comment => write!(f, "Comment"),
-			WeTokenType::NUMBER { floating_point } => write!(f, "NUMBER(floating_point: {})", floating_point),
+			WeTokenType::NUMBER { floating_point } => {
+				write!(f, "NUMBER(floating_point: {})", floating_point)
+			}
 			WeTokenType::ID_KEYWORD => write!(f, "ID_KEYWORD"),
 		}
 	}
@@ -66,7 +68,11 @@ impl Debug for WeToken<'_> {
 	}
 }
 
-fn next_2_match_token<'a, 'b>(file_name: &'a str, line_number: usize, token_string: &'b str) -> Option<WeToken<'a>> {
+fn next_2_match_token<'a, 'b>(
+	file_name: &'a str,
+	line_number: usize,
+	token_string: &'b str,
+) -> Option<WeToken<'a>> {
 	match token_string {
 		"//" => Some(WeToken {
 			string_value: token_string.to_string(),
@@ -84,7 +90,11 @@ fn next_2_match_token<'a, 'b>(file_name: &'a str, line_number: usize, token_stri
 	}
 }
 
-fn next_1_match_token<'a, 'b>(file_name: &'a str, line_number: usize, token_string: &'b str) -> Option<WeToken<'a>> {
+fn next_1_match_token<'a, 'b>(
+	file_name: &'a str,
+	line_number: usize,
+	token_string: &'b str,
+) -> Option<WeToken<'a>> {
 	match token_string {
 		"," => Some(WeToken {
 			string_value: token_string.to_string(),
@@ -237,7 +247,13 @@ pub fn tokenize(source_file_name: &str) -> Vec<WeToken<'_>> {
 				}
 			}
 
-			tokens.push(WeToken { string_value: id_keyword, token_type: WeTokenType::ID_KEYWORD, source_file: source_file_name, line_number: current_line });
+			tokens.push(WeToken {
+				string_value: id_keyword,
+				token_type: WeTokenType::ID_KEYWORD,
+				source_file: source_file_name,
+				line_number: current_line,
+			});
+			continue;
 		}
 
 		// Handles numbers
@@ -264,7 +280,15 @@ pub fn tokenize(source_file_name: &str) -> Vec<WeToken<'_>> {
 				}
 			}
 
-			tokens.push(WeToken { string_value: number, token_type: WeTokenType::NUMBER { floating_point: is_floating_point }, source_file: source_file_name, line_number: current_line });
+			tokens.push(WeToken {
+				string_value: number,
+				token_type: WeTokenType::NUMBER {
+					floating_point: is_floating_point,
+				},
+				source_file: source_file_name,
+				line_number: current_line,
+			});
+			continue;
 		}
 
 		if current_char == '\"' {
@@ -284,7 +308,13 @@ pub fn tokenize(source_file_name: &str) -> Vec<WeToken<'_>> {
 				current_position += 1;
 			}
 
-			tokens.push(WeToken { string_value: string_literal, token_type: WeTokenType::STRING_LITERAL, source_file: source_file_name, line_number: current_line });
+			tokens.push(WeToken {
+				string_value: string_literal,
+				token_type: WeTokenType::STRING_LITERAL,
+				source_file: source_file_name,
+				line_number: current_line,
+			});
+			continue;
 		}
 
 		panic!(
