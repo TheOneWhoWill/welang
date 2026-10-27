@@ -35,7 +35,7 @@ impl Debug for WeTokenType {
 			WeTokenType::MATH_OP => write!(f, "MATH_OP"),
 			WeTokenType::SEMICOLON => write!(f, "SEMICOLON"),
 			WeTokenType::COLON => write!(f, "COLON"),
-			WeTokenType::STRING => write!(f, "STRING"),
+			WeTokenType::STRING_LITERAL => write!(f, "STRING_LITERAL"),
 			WeTokenType::Comment => write!(f, "Comment"),
 			WeTokenType::NUMBER { floating_point } => write!(f, "NUMBER(floating_point: {})", floating_point),
 			WeTokenType::ID_KEYWORD => write!(f, "ID_KEYWORD"),
