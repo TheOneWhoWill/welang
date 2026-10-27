@@ -172,7 +172,7 @@ pub fn tokenize(source_file_name: &str) -> Vec<WeToken> {
 		}
 
 
-		if let Some(token) = next_2_match_token(source_file_name.clone(), current_line, &input_file[current_position..current_position + 2]) {
+		if let Some(token) = next_2_match_token(source_file_name, current_line, &input_file[current_position..current_position + 2]) {
 			current_position += token.string_value.len();
 			
 			if token.token_type == WeTokenType::Comment {
@@ -186,7 +186,7 @@ pub fn tokenize(source_file_name: &str) -> Vec<WeToken> {
 			tokens.push(token);
 		}
 
-		if let Some(token) = next_1_match_token(source_file_name.clone(), current_line, &input_file[current_position..current_position + 1]) {
+		if let Some(token) = next_1_match_token(source_file_name, current_line, &input_file[current_position..current_position + 1]) {
 			current_position += token.string_value.len();
 			tokens.push(token);
 		}
